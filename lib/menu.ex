@@ -80,7 +80,8 @@ defmodule MetaMenu.Menu do
   end
 
   def read_each_menu_item(menu, lambda) do
-    Enum.each(menu.items, fn(item) ->
+    menu_items = Enum.sort(menu.items, fn(item_1, item_2) -> item_1.index < item_2.index end)
+    Enum.each(menu_items, fn(item) ->
       with {:ok, item_index} <- MetaMenu.Item.get_item_index(item),
         {:ok, item_text} <- MetaMenu.Item.get_item_text(item),
         {:ok, custom_data} <- MetaMenu.Item.get_custom_data(item),
