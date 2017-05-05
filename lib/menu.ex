@@ -25,8 +25,8 @@ defmodule MetaMenu.Menu do
     %MetaMenu.Menu{menu | description: description}
   end
 
-  def set_custom_data(menu, custom_data) do
-    %MetaMenu.Menu{menu | custom_data: custom_data}
+  def update_custom_data(menu, update_lambda) do
+    %MetaMenu.Menu{menu | custom_data: update_lambda.(menu.custom_data)}
   end
 
   def select_menu_item(menu, item_index, meta_menu) do
@@ -73,6 +73,10 @@ defmodule MetaMenu.Menu do
 
   def set_last_menu_item_select_callback(menu, on_select) do
     apply_update_on_last_menu_item(menu, :set_on_select, [on_select])
+  end
+
+  def update_last_menu_item_custom_data(menu, update_lambda) do
+    apply_update_on_last_menu_item(menu, :update_custom_data, [update_lambda])
   end
 
   def read_each_menu_item(menu, lambda) do

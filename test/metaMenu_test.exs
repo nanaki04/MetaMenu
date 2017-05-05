@@ -37,6 +37,14 @@ defmodule MetaMenuTest do
     assert {:ok, ^description} = MetaMenu.get_current_menu_description(meta_menu)
   end
 
+  test "update_current_menu_custom_data" do
+    {:ok, custom_data} = %MetaMenu{}
+    |> MetaMenu.push_menu()
+    |> MetaMenu.update_current_menu_custom_data(&(Map.put(&1, :hi, :lol)))
+    |> MetaMenu.get_current_menu_custom_data()
+    assert custom_data.hi === :lol
+  end
+
   test "set_last_menu_item_index auto" do
     %MetaMenu{}
     |> MetaMenu.push_menu()
@@ -78,6 +86,16 @@ defmodule MetaMenuTest do
     |> MetaMenu.set_last_menu_item_select_callback(&MetaMenu.go_back/1)
     |> MetaMenu.select_menu_item(1)
     assert {:ok, "Menu 1"} = MetaMenu.get_current_menu_title(meta_menu)
+  end
+
+  test "update_last_menu_item_custom_data" do
+    %MetaMenu{}
+    |> MetaMenu.push_menu()
+    |> MetaMenu.push_menu_item()
+    |> MetaMenu.update_last_menu_item_custom_data(&(Map.put(&1, :hi, :lol)))
+    |> MetaMenu.read_each_current_menu_item(fn(_index, _text, custom_data) ->
+      assert custom_data.hi === :lol
+    end)
   end
 
   test "get_current_menu fail" do

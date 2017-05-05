@@ -33,6 +33,10 @@ defmodule MetaMenu do
     apply_update_on_current_menu(meta_menu, :set_description, [description])
   end
 
+  def update_current_menu_custom_data(meta_menu, update_lambda) do
+    apply_update_on_current_menu(meta_menu, :update_custom_data, [update_lambda])
+  end
+
   def set_last_menu_item_index(meta_menu) do
     with {:ok, count} <- get_current_menu_item_count(meta_menu), do:
       set_last_menu_item_index(meta_menu, count)
@@ -47,6 +51,10 @@ defmodule MetaMenu do
 
   def set_last_menu_item_select_callback(meta_menu, on_select) do
     apply_update_on_current_menu(meta_menu, :set_last_menu_item_select_callback, [on_select])
+  end
+
+  def update_last_menu_item_custom_data(meta_menu, update_lambda) do
+    apply_update_on_current_menu(meta_menu, :update_last_menu_item_custom_data, [update_lambda])
   end
 
   def select_menu_item(meta_menu, item_index) do
@@ -83,6 +91,11 @@ defmodule MetaMenu do
   def get_current_menu_description(meta_menu) do
     with {:ok, menu} <- get_current_menu(meta_menu), do:
       menu |> Menu.get_description()
+  end
+
+  def get_current_menu_custom_data(meta_menu) do
+    with {:ok, menu} <- get_current_menu(meta_menu), do:
+      menu |> Menu.get_custom_data()
   end
 
   def get_current_menu_item_count(%{history_list: []}), do: {:ok, 0}

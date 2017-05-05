@@ -22,8 +22,8 @@ defmodule MetaMenu.Item do
     %MetaMenu.Item{item | on_select: callback}
   end
 
-  def set_custom_data(item, custom_data) do
-    %MetaMenu.Item{item | custom_data: custom_data}
+  def update_custom_data(item, update_lambda) do
+    %MetaMenu.Item{item | custom_data: update_lambda.(item.custom_data)}
   end
 
   def get_item_index(item) do
