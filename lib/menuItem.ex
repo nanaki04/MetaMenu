@@ -24,8 +24,6 @@ defmodule MetaMenu.Item do
   end
 
   def set_select_arguments(item, select_arguments) do
-    IO.puts("set arguments")
-    IO.inspect(select_arguments)
     %MetaMenu.Item{item | select_arguments: select_arguments}
   end
 
