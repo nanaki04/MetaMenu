@@ -53,6 +53,10 @@ defmodule MetaMenu do
     apply_update_on_current_menu(meta_menu, :set_last_menu_item_select_callback, [on_select])
   end
 
+  def set_last_menu_item_select_arguments(meta_menu, select_arguments) do
+    apply_update_on_current_menu(meta_menu, :set_last_menu_item_select_arguments, [select_arguments])
+  end
+
   def update_last_menu_item_custom_data(meta_menu, update_lambda) do
     apply_update_on_current_menu(meta_menu, :update_last_menu_item_custom_data, [update_lambda])
   end

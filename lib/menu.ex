@@ -75,6 +75,10 @@ defmodule MetaMenu.Menu do
     apply_update_on_last_menu_item(menu, :set_on_select, [on_select])
   end
 
+  def set_last_menu_item_select_arguments(menu, select_arguments) do
+    apply_update_on_last_menu_item(menu, :set_select_arguments, [select_arguments])
+  end
+
   def update_last_menu_item_custom_data(menu, update_lambda) do
     apply_update_on_last_menu_item(menu, :update_custom_data, [update_lambda])
   end

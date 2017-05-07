@@ -75,6 +75,10 @@ defmodule MetaMenuTest do
     end)
   end
 
+  def on_select_mock(meta_menu, _arguments) do
+    MetaMenu.go_back(meta_menu)
+  end
+
   test "set_last_menu_item_select_callback" do
     meta_menu = %MetaMenu{}
     |> MetaMenu.push_menu()
@@ -83,7 +87,26 @@ defmodule MetaMenuTest do
     |> MetaMenu.set_current_menu_title("Menu 2")
     |> MetaMenu.push_menu_item()
     |> MetaMenu.set_last_menu_item_index(1)
-    |> MetaMenu.set_last_menu_item_select_callback(&MetaMenu.go_back/1)
+    |> MetaMenu.set_last_menu_item_select_callback(&__MODULE__.on_select_mock/2)
+    |> MetaMenu.select_menu_item(1)
+    assert {:ok, "Menu 1"} = MetaMenu.get_current_menu_title(meta_menu)
+  end
+
+  def on_select_with_argument_mock(meta_menu, [argument_1]) do
+    assert argument_1 === :select_argument
+    on_select_mock(meta_menu, [])
+  end
+
+  test "set_last_menu_item_select_arguments" do
+    meta_menu = %MetaMenu{}
+    |> MetaMenu.push_menu()
+    |> MetaMenu.set_current_menu_title("Menu 1")
+    |> MetaMenu.push_menu()
+    |> MetaMenu.set_current_menu_title("Menu 2")
+    |> MetaMenu.push_menu_item()
+    |> MetaMenu.set_last_menu_item_index(1)
+    |> MetaMenu.set_last_menu_item_select_callback(&__MODULE__.on_select_with_argument_mock/2)
+    |> MetaMenu.set_last_menu_item_select_arguments([:select_argument])
     |> MetaMenu.select_menu_item(1)
     assert {:ok, "Menu 1"} = MetaMenu.get_current_menu_title(meta_menu)
   end
